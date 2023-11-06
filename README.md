@@ -1,5 +1,5 @@
 # Interleaving Simulator Application using Python tkinter
-![Thumbnail](assets\thumbnail.jpg)
+![Thumbnail](assets/thumbnail.jpg)
 
 
 ## How to run without Python
