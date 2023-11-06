@@ -1,3 +1,7 @@
+# Interleaving Simulator Application using Python tkinter
+![Thumbnail](assets\thumbnail.jpg)
+
+
 ## How to run without Python
 Simply open `dist` folder, and open `Interleaving Simulator.exe` file
 
