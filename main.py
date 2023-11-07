@@ -4,16 +4,6 @@ from time import sleep
 import random
 
 
-"""
-NOTE: 
-1. Buat info text rusak paket ke berapa (untuk x label) [DONE]
-2. Buat info text rusak paket ke berapa (untuk y label) [DONE]
-3. BUAT POST TEXT DI KE DUA SIMULASI [DONE]
-4. Buat text penjelasan di sebelum Interleaving simulasi dimulai [DONE]
-5. [EKSTRA] Buat form UI sendiri, jadi input tidak melalui terminal [DONE]
-"""
-
-
 def cls_termninal() -> None:
     import sys, subprocess
 
