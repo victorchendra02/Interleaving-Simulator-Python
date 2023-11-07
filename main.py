@@ -73,53 +73,111 @@ class InputMessageUI():
         
         self.root = tk.Tk()
         self.message_label = None
+        self.small_note = None
         self.message_entry = None
+        
         self.n_label = None
         self.n_entry = None
+        
         self.lets_go_button = None
+        self.error_input_text = None
+        
+        # self.is_input_correct = False
 
-
+        self.WIN_WIDTH = 853
+        self.WIN_HEIGHT = 508
         self.screenwidth = self.root.winfo_screenwidth()
         self.screenheight = self.root.winfo_screenheight()
+        x = (self.screenwidth // 2) - (self.WIN_WIDTH // 2)
+        y = (self.screenheight // 2) - (self.WIN_HEIGHT // 2)
 
         # small_icon = tk.PhotoImage(file="assets/icons8-thin-client-70.png")
         # large_icon = tk.PhotoImage(file="assets/icons8-thin-client-70.png")
         # self.root.iconphoto(False, large_icon, small_icon)
         self.root.title("Computer Network Interleaving Simulator")
         self.root.configure(bg="#93B1A6")
-        self.root.geometry(f"{int(self.screenwidth//1.8)}x{int(self.screenheight//1.7)}")
+        self.root.geometry(f"{self.WIN_WIDTH}x{self.WIN_HEIGHT}+{x}+{y}")
+ 
+    def validate_input(self):
+        splitted_message = self.message.split(" ")
+        longest_string = max(splitted_message, key=len)
 
+        if len(self.message) == 0:
+            self.error_input_text.config(text="Please input a message", fg="blue")
+            self.error_input_text.pack(side="top", pady=(40, 0))
+            return False
+        elif len(longest_string) > 8:
+            self.error_input_text.config(text="Message with more than 8 characters is not allowed!", fg="red")
+            self.error_input_text.pack(side="top", pady=(40, 0))
+            return False
+        elif len(splitted_message) > 7:
+            self.error_input_text.config(text="Please input no more than 7 sentences (packages)", fg="blue")
+            self.error_input_text.pack(side="top", pady=(40, 0))
+            return False
+        elif len(self.n) == 0:
+            self.error_input_text.config(text="Please input number of broken packages", fg="blue")
+            self.error_input_text.pack(side="top", pady=(40, 0))
+            return False
+        elif int(self.n) > min(len(longest_string), len(splitted_message)) :
+            self.error_input_text.config(text="Number of broken packages is too big!", fg="red")
+            self.error_input_text.pack(side="top", pady=(40, 0))
+            return False
+        elif int(self.n) < 0:
+            self.error_input_text.config(text="Number of broken packages must be positive!", fg="red")
+            self.error_input_text.pack(side="top", pady=(40, 0))
+            return False
+
+        splitted = self.message.split(" ")
+        temp = " ".join([s.ljust(8, "_") for s in splitted])
+        # print(temp)
+        self.message = temp
+
+        self.n = int(self.n)
+        return True
         
     def lets_go_button_event(self):
-        self.message = str(self.message_entry.get())
-        self.n = int(self.n_entry.get())
-        self.root.destroy()
+        self.message = str(self.message_entry.get()).strip()
+        self.n = str(self.n_entry.get()).strip()
+
+        is_verified = self.validate_input()
+        
+        if is_verified:
+            # print("DONE")
+            self.error_input_text.pack_forget()
+            self.root.destroy()
         
     def initialize(self):
         # Message
         self.message_label = tk.Label(
             self.root,
-            text="Message",
+            text="Input message",
             font=("Fira Code", 14, "bold"),
             width=25
             )
-        self.message_label.pack(side='top', pady=(110,0))
+        self.message_label.pack(side='top', pady=(92,0))
+        self.small_note = tk.Label(
+            self.root,
+            text="max. 8 characters",
+            font=("Fira Code", 9),
+            width=21
+            )
+        self.small_note.pack(side='top', pady=(0,0))
         self.message_entry = tk.Entry(
             self.root,
-            width=60,
+            width=56,
             justify='center',
             font=("Helvetica", 14)
             )
-        self.message_entry.insert(0, "matahari membakar sebagian material berwarna kebiruan")
+        self.message_entry.insert(0, "matahari membakar sebagian material berwarna kebiruan 01234567")
         self.message_entry.pack(side='top')
         
 
         # n
         self.n_label = tk.Label(
             self.root,
-            text="Number of broken text",
+            text="Number of broken packages",
             font=("Fira Code", 14, "bold"),
-            width=25
+            width=29
             )
         self.n_label.pack(side='top', pady=(30,0))
         self.n_entry = tk.Entry(
@@ -142,6 +200,14 @@ class InputMessageUI():
         )
         self.lets_go_button.pack(side='top', pady=(50,0))
         
+
+        # error message
+        self.error_input_text = tk.Label(
+            self.root,
+            text="",
+            font=("Fira Code", 10),
+            width=57
+        )
         
     def run(self):
         self.initialize()
@@ -318,7 +384,7 @@ class AppSimulator():
         if result == "FINISH":
             # Post text
             self.post_text = tk.Label(self.root,
-                text="Sebagai Receiver, apakah anda bisa menebak keseluruhan pesan yang telah rusak sebagian saat dalam pengiriman?\nCoba bandingkan dengan simulasi Interleaving dan amatilah perbedaannya!",
+                text="Sebagai Receiver, apakah Anda bisa menebak keseluruhan pesan yang telah rusak sebagian saat dalam pengiriman?\nCoba bandingkan dengan simulasi Interleaving dan amatilah perbedaannya!",
                 font=(self.font_FiraCode, 11),
                 fg='blue'
                 )
