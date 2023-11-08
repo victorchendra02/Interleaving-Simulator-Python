@@ -93,27 +93,27 @@ class InputMessageUI():
         longest_string = max(splitted_message, key=len)
 
         if len(self.message) == 0:
-            self.error_input_text.config(text="Please input a message", fg="blue")
+            self.error_input_text.config(text="Please provide a message", fg="blue")
             self.error_input_text.pack(side="top", pady=(40, 0))
             return False
         elif len(longest_string) > 8:
-            self.error_input_text.config(text="Message with more than 8 characters is not allowed!", fg="red")
+            self.error_input_text.config(text="Packets with more than 8 characters is not allowed!", fg="red")
             self.error_input_text.pack(side="top", pady=(40, 0))
             return False
         elif len(splitted_message) > 7:
-            self.error_input_text.config(text="Please input no more than 7 sentences (packages)", fg="blue")
+            self.error_input_text.config(text="Please input no more than 7 words/packets", fg="blue")
             self.error_input_text.pack(side="top", pady=(40, 0))
             return False
         elif len(self.n) == 0:
-            self.error_input_text.config(text="Please input number of broken packages", fg="blue")
+            self.error_input_text.config(text="Please input number of broken words/packets", fg="blue")
             self.error_input_text.pack(side="top", pady=(40, 0))
             return False
         elif int(self.n) > min(len(longest_string), len(splitted_message)) :
-            self.error_input_text.config(text="Number of broken packages is too big!", fg="red")
+            self.error_input_text.config(text="Number of broken packets is too big!", fg="red")
             self.error_input_text.pack(side="top", pady=(40, 0))
             return False
         elif int(self.n) < 0:
-            self.error_input_text.config(text="Number of broken packages must be positive!", fg="red")
+            self.error_input_text.config(text="Number of broken packets must be positive!", fg="red")
             self.error_input_text.pack(side="top", pady=(40, 0))
             return False
 
@@ -147,9 +147,9 @@ class InputMessageUI():
         self.message_label.pack(side='top', pady=(92,0))
         self.small_note = tk.Label(
             self.root,
-            text="max. 8 characters",
+            text="max. 8 words/packets",
             font=("Fira Code", 9),
-            width=21
+            width=22
             )
         self.small_note.pack(side='top', pady=(0,0))
         self.message_entry = tk.Entry(
