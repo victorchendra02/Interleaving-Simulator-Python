@@ -74,7 +74,7 @@ class InputMessageUI():
         
         # self.is_input_correct = False
 
-        self.WIN_WIDTH = 853
+        self.WIN_WIDTH = 920
         self.WIN_HEIGHT = 508
         self.screenwidth = self.root.winfo_screenwidth()
         self.screenheight = self.root.winfo_screenheight()
@@ -100,8 +100,8 @@ class InputMessageUI():
             self.error_input_text.config(text="Packets with more than 8 characters is not allowed!", fg="red")
             self.error_input_text.pack(side="top", pady=(40, 0))
             return False
-        elif len(splitted_message) > 7:
-            self.error_input_text.config(text="Please input no more than 7 words/packets", fg="blue")
+        elif len(splitted_message) > 8:
+            self.error_input_text.config(text="Please input no more than 8 words/packets", fg="blue")
             self.error_input_text.pack(side="top", pady=(40, 0))
             return False
         elif len(self.n) == 0:
@@ -118,6 +118,9 @@ class InputMessageUI():
             return False
 
         splitted = self.message.split(" ")
+        if len(splitted) < 8:
+            splitted.extend(["_" * 8] * (8 - len(splitted)))
+        
         temp = " ".join([s.ljust(8, "_") for s in splitted])
         # print(temp)
         self.message = temp
@@ -154,9 +157,9 @@ class InputMessageUI():
         self.small_note.pack(side='top', pady=(0,0))
         self.message_entry = tk.Entry(
             self.root,
-            width=56,
+            width=74,
             justify='center',
-            font=("Helvetica", 14)
+            font=("Fira Code", 14)
             )
         self.message_entry.insert(0, "matahari membakar sebagian material berwarna kebiruan 01234567")
         self.message_entry.pack(side='top')
@@ -165,7 +168,7 @@ class InputMessageUI():
         # n
         self.n_label = tk.Label(
             self.root,
-            text="Number of broken packages",
+            text="Number of broken packets",
             font=("Fira Code", 14, "bold"),
             width=29
             )
@@ -174,9 +177,9 @@ class InputMessageUI():
             self.root,
             width=25,
             justify='center',
-            font=("Helvetica", 14)
+            font=("Fira Code", 14)
             )
-        self.n_entry.insert(0, 2)
+        self.n_entry.insert(0, 3)
         self.n_entry.pack(side='top')
         
         
@@ -360,7 +363,7 @@ class AppSimulator():
             )
         _tm_width = get_widget_size(text_mengirim)[0]
         add_pad = 40
-        text_mengirim.place(x=self.screenwidth//2 - _tm_width//2 - add_pad//2, y=self.screenheight - 180, width=_tm_width + add_pad)
+        text_mengirim.place(x=self.screenwidth//2 - _tm_width//2 - add_pad//2, y=self.screenheight - 150, width=_tm_width + add_pad)
 
         
         for i, label in enumerate(self.x_labels):
@@ -379,7 +382,7 @@ class AppSimulator():
                 fg='blue'
                 )
             _post_text_width = get_widget_size(self.post_text)[0]
-            self.post_text.place(x=self.screenwidth//2 - _post_text_width//2, y=self.screenheight - 180, width=_post_text_width + 30)
+            self.post_text.place(x=self.screenwidth//2 - _post_text_width//2, y=self.screenheight - 170, width=_post_text_width + 30)
         
         self.init_header()
 
@@ -439,7 +442,7 @@ class AppSimulator():
             fg='green'
             )
         _post_text_width = get_widget_size(self.interleaving_explenation_text)[0]
-        self.interleaving_explenation_text.place(x=self.screenwidth//2 - _post_text_width//2, y=self.screenheight - 180, width=_post_text_width + 30)
+        self.interleaving_explenation_text.place(x=self.screenwidth//2 - _post_text_width//2, y=self.screenheight - 170, width=_post_text_width + 30)
 
         self.wait_in_the_middle(200)
             
@@ -458,7 +461,7 @@ class AppSimulator():
                 fg='green'
                 )
             _post_text_width = get_widget_size(self.post_text)[0]
-            self.post_text.place(x=self.screenwidth//2 - _post_text_width//2, y=self.screenheight - 180, width=_post_text_width + 30)
+            self.post_text.place(x=self.screenwidth//2 - _post_text_width//2, y=self.screenheight - 170, width=_post_text_width + 30)
 
         self.init_header()
 
