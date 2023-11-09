@@ -23,18 +23,16 @@ def get_widget_size(widget: tk.Label | tk.Button) -> tuple[int, int]:
     return widget.winfo_reqwidth(), widget.winfo_reqheight()
 
 
-def generate_broken_message(array: list[str], m: int, orient: str) -> list[str]:
+def generate_broken_message(array: list[str], indicator: list[bool], orient: str) -> tuple[list[str], list[bool]]:
     """
-    array: list of messages
-    n: number of broken messages
-    orient: 'row' | 'col'
+    array       : list of words/packets
+    indicator   : [True, False, ...] 
+    orient      : 'row' | 'col'
     """
     
     orient = orient.lower()
     n = len(array)
     
-    indicator = [True]*m + [False]*(abs(n-m))
-    random.shuffle(indicator)
     
     result = [None] * n
     
@@ -208,7 +206,7 @@ class InputMessageUI():
         
 
 class AppSimulator():
-    def __init__(self, n: int = 2, message="matahari membakar sebagian material berwarna kebiruan"):
+    def __init__(self, n: int, message: str):
         self.root = tk.Tk()
         self.screenwidth = self.root.winfo_screenwidth()
         self.screenheight = self.root.winfo_screenheight()
@@ -278,8 +276,12 @@ class AppSimulator():
 
 
         # Create random broken message
-        self.broken_row_message, self.row_indicator = generate_broken_message(self.row_message, n, orient='row')
-        self.broken_col_message, self.col_indicator = generate_broken_message(self.col_message, n, orient='col')
+        indicator = [True]*n + [False]*(abs(8-n))
+        random.shuffle(indicator)
+
+        self.broken_row_message, self.row_indicator = generate_broken_message(self.row_message, indicator, orient='row')
+        self.broken_col_message, self.col_indicator = generate_broken_message(self.col_message, indicator, orient='col')
+        
     
         # self.col_message = self.broken_col_message
         # self.row_message = self.broken_row_message
