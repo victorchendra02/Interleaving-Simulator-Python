@@ -393,7 +393,7 @@ class AppSimulator():
         # 0 - 0.5
         for j in range(1, abs(752 - self.x[i]), 6):
             if self.is_running:
-                label.place(x=self.x[i] + j, y=self.y_initial, width=self.y_label_width, height=self.y_label_height)
+                label.place(x=self.x[i] + j + 32, y=self.y_initial, width=self.y_label_width, height=self.y_label_height)
                 self.root.update()
                 sleep(0.002)
             else:
@@ -406,7 +406,7 @@ class AppSimulator():
         if self.col_indicator[i]:
             label.place_forget()
             label = self.create_label(self.broken_col_message[i])
-            label.place(x=self.x[i] + j, y=self.y_initial, width=self.y_label_width, height=self.y_label_height)
+            label.place(x=self.x[i] + j + 32, y=self.y_initial, width=self.y_label_width, height=self.y_label_height)
 
             # pop up info text
             self.pop_up_info_text(i)
@@ -417,7 +417,7 @@ class AppSimulator():
         # 0.5 - 1
         for k in range(j, 1000 - 200, 6):
             if self.is_running:
-                label.place(x=self.x[i] + k, y=self.y_initial, width=self.y_label_width, height=self.y_label_height)
+                label.place(x=self.x[i] + k + 32, y=self.y_initial, width=self.y_label_width, height=self.y_label_height)
                 self.root.update()
                 sleep(0.002)
             else:
