@@ -533,12 +533,12 @@ class AppSimulator():
             label.config(font=(self.font_FiraCode, 20, "bold"))
 
             self.x_label_width = get_widget_size(label)[0] + 70
-            self.x_label_height = get_widget_size(label)[1] + 2
+            self.x_label_height = get_widget_size(label)[1]
 
             self.x_labels.append(label)
             self.y.append(self.y_initial + y_interval)
             
-            y_interval += 52
+            y_interval += 50
             
         for i, label in enumerate(self.x_labels):
             label.place(x=self.screenwidth//4 - (get_widget_size(label)[0]+70)//2, y=self.y[i], width=self.x_label_width, height=self.x_label_height)
@@ -561,7 +561,7 @@ class AppSimulator():
             x_interval += 53
             
         for j, label in enumerate(self.y_labels):
-            label.place(x=self.x[j], y=self.y_initial, width=self.y_label_width, height=self.y_label_height)
+            label.place(x=self.x[j] + 32, y=self.y_initial, width=self.y_label_width, height=self.y_label_height)
 
     def initialize(self):
         self.is_running = False
