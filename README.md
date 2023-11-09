@@ -18,10 +18,11 @@ venv\Scripts\activate
 ```bash
 pip install tkinter
 pip install pyinstaller
+pip install auto-py-to-exe
 ```
 
 
-## How to compile `.py` to `.exe` file
+## How to compile `.py` to `.exe` file (pyinstaller)
 ```bash
 # Compile normal
 pyinstaller main.py
