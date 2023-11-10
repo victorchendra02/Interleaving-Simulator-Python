@@ -339,7 +339,7 @@ class AppSimulator():
             else:
                 return "RESTART"
             
-        self.wait_in_the_middle(60)
+        self.wait_in_the_middle(50)
         
         return "FINISH"
         
@@ -385,10 +385,19 @@ class AppSimulator():
 
 
     def start_interleaving_simulation(self, i, label):
+        old_label = label
+        old_text = label.cget("text")
+        label.place_forget()
+        
+        new_text = old_label.cget("text").replace("\n", "  ")
+        label = self.create_label(new_text)
+        
         # 0 - 0.5
         for j in range(1, abs(752 - self.x[i] -32), 6):
             if self.is_running:
-                label.place(x=self.x[i] + j + 32, y=self.y_initial, width=self.y_label_width, height=self.y_label_height)
+                label.place(x=self.x[i] + j + 32 - (get_widget_size(label)[0]//2), y=self.screenheight//2 - (get_widget_size(label)[1]//2), width=self.x_label_width, height=self.x_label_height)
+                label.config(bg="yellow")
+                self.wait_in_the_middle(80) if j == 1 else 0
                 self.root.update()
                 sleep(0.002)
             else:
@@ -400,9 +409,12 @@ class AppSimulator():
         # broken message
         if self.col_indicator[i]:
             label.place_forget()
-            label = self.create_label(self.broken_col_message[i])
-            label.place(x=self.x[i] + j + 32, y=self.y_initial, width=self.y_label_width, height=self.y_label_height)
-
+            new_broken_message = self.broken_col_message[i].replace("\n", "  ")
+            
+            label = self.create_label(new_broken_message)
+            label.place(x=self.x[i] + j + 32 - (get_widget_size(label)[0]//2), y=self.screenheight//2 - (get_widget_size(label)[1]//2), width=self.x_label_width, height=self.x_label_height)
+            label.config(bg="yellow")
+            
             # pop up info text
             self.pop_up_info_text(i)
                         
@@ -410,15 +422,23 @@ class AppSimulator():
             
         
         # 0.5 - 1
-        for k in range(j, 1000 - 200 -32, 6):
+        last_iteration = (1100 - 200 - 32 - j) // 6
+        x_coor_destination = [933, 986, 1039, 1092, 1145, 1198, 1251, 1304]
+        for index, k in enumerate(range(j, 1100 - 200 - 32, 6)):
             if self.is_running:
-                label.place(x=self.x[i] + k + 32, y=self.y_initial, width=self.y_label_width, height=self.y_label_height)
+                label.place(x=self.x[i] + k + 32 - (get_widget_size(label)[0]//2), y=self.screenheight//2 - (get_widget_size(label)[1]//2), width=self.x_label_width, height=self.x_label_height)
                 self.root.update()
                 sleep(0.002)
+
+                if index == last_iteration:
+                    self.wait_in_the_middle(30)
+                    label.place(x=x_coor_destination[i], y=self.y_initial, width=self.y_label_width, height=self.y_label_height)
+                    label.config(bg="#F0F0F0", text=self.broken_col_message[i].upper())
+                
             else:
                 return "RESTART"
         
-        self.wait_in_the_middle(60)
+        self.wait_in_the_middle(50)
         
         return "FINISH"
 
@@ -515,7 +535,7 @@ class AppSimulator():
         self.header.config(bg="white")
         self.header.place(y=56, width=self.screenwidth)
     
-    def create_label(self, text):
+    def create_label(self, text: str):
         label = tk.Label(self.root, text=text.upper())
         label.config(font=(self.font_FiraCode, 20, "bold"))
         return label
