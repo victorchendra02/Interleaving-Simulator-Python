@@ -339,12 +339,7 @@ class AppSimulator():
             else:
                 return "RESTART"
             
-        for _ in range(80):
-            if self.is_running:
-                self.root.update()
-                sleep(0.002)
-            else:
-                return "RESTART"
+        self.wait_in_the_middle(60)
         
         return "FINISH"
         
@@ -391,7 +386,7 @@ class AppSimulator():
 
     def start_interleaving_simulation(self, i, label):
         # 0 - 0.5
-        for j in range(1, abs(752 - self.x[i]), 6):
+        for j in range(1, abs(752 - self.x[i] -32), 6):
             if self.is_running:
                 label.place(x=self.x[i] + j + 32, y=self.y_initial, width=self.y_label_width, height=self.y_label_height)
                 self.root.update()
@@ -415,13 +410,15 @@ class AppSimulator():
             
         
         # 0.5 - 1
-        for k in range(j, 1000 - 200, 6):
+        for k in range(j, 1000 - 200 -32, 6):
             if self.is_running:
                 label.place(x=self.x[i] + k + 32, y=self.y_initial, width=self.y_label_width, height=self.y_label_height)
                 self.root.update()
                 sleep(0.002)
             else:
                 return "RESTART"
+        
+        self.wait_in_the_middle(60)
         
         return "FINISH"
 
